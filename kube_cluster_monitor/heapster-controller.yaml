@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    k8s-app: heapster
+    name: heapster
+    version: v6
+  name: heapster
+  namespace: kube-system
+  selfLink: /api/v1/namespaces/kube-system/replicationcontrollers/heapster
+spec:
+  replicas: 1
+  selector:
+    k8s-app: heapster
+    version: v6
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        k8s-app: heapster
+        version: v6
+    spec:
+      containers:
+      - command:
+        - /heapster
+        #api-server的地址
+        - --source=kubernetes:http://192.168.0.10:8080?inClusterConfig=false
+        - --sink=influxdb:http://10.254.0.4:8086
+        image: kubernetes/heapster:canary
+        imagePullPolicy: IfNotPresent
+        name: heapster
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

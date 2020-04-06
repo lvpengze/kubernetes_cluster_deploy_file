@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: influxGrafana
+  name: influxdb-grafana
+  namespace: kube-system
+  selfLink: /api/v1/namespaces/kube-system/replicationcontrollers/influxdb-grafana
+spec:
+  replicas: 1
+  selector:
+    name: influxGrafana
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: influxGrafana
+    spec:
+      containers:
+      - image: kubernetes/heapster_influxdb:v0.5
+        imagePullPolicy: IfNotPresent
+        name: influxdb
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /data
+          name: influxdb-storage
+      - env:
+        #api-server的地址
+        - name: INFLUXDB_SERVICE_URL
+          value: http://192.168.0.10:8080
+        - name: GF_AUTH_BASIC_ENABLED
+          value: "false"
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "true"
+        - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+          value: Admin
+        - name: GF_SERVER_ROOT_URL
+          value: /api/v1/proxy/namespaces/kube-system/services/monitoring-grafana/
+        image: docker.io/xiechengsheng/heapster-grafana-amd64:v4.0.2
+        imagePullPolicy: Never
+        name: grafana
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /var
+          name: grafana-storage
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: influxdb-storage
+      - emptyDir: {}
+        name: grafana-storage
