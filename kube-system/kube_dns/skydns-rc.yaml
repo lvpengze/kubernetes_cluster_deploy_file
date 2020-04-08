@@ -38,10 +38,14 @@ spec:
     metadata:
       labels:
         k8s-app: kube-dns
+      #通过tolerations将pod部署到master节点（已通过kubectl taint nodes k8s-mst node-role.kubernetes.io/master="true":NoSchedule命令为master节点添加污点）
       annotations:
-        scheduler.alpha.kubernetes.io/critical-pod: ''
-        scheduler.alpha.kubernetes.io/tolerations: '[{"key":"CriticalAddonsOnly", "operator":"Exists"}]'
+        scheduler.alpha.kubernetes.io/tolerations: '[{"key":"node-role.kubernetes.io/master", "operator":"Equal", "value":"true", "effect":"NoSchedule"}]'
     spec:
+      #配合taints使用，pods只能部署到master节点
+      nodeSelector:
+        kubernetes.io/hostname: k8s-mst
+        
       containers:
       - name: kubedns
         image: registry.cn-hangzhou.aliyuncs.com/lvpengze/kubedns-amd64:1.9

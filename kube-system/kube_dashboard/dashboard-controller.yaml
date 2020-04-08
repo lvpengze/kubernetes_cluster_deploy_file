@@ -15,18 +15,22 @@ spec:
     metadata:
       labels:
         app: kubernetes-dashboard
-      # Comment the following annotation if Dashboard must not be deployed on master
+      # 容忍pods部署到k8s（已通过kubectl taint nodes k8s-mst node-role.kubernetes.io/master="true":NoSchedule命令为master节点添加污点）
       annotations:
         scheduler.alpha.kubernetes.io/tolerations: |
           [
             {
-              "key": "dedicated",
+              "key": "node-role.kubernetes.io/master",
               "operator": "Equal",
-              "value": "master",
+              "value": "true",
               "effect": "NoSchedule"
             }
           ]
     spec:
+      #配合taints使用，pods只能部署到master节点
+      nodeSelector:
+        kubernetes.io/hostname: k8s-mst
+
       containers:
       - name: kubernetes-dashboard
         image: registry.cn-hangzhou.aliyuncs.com/lvpengze/kubernetes-dashboard-amd64:v1.5.1

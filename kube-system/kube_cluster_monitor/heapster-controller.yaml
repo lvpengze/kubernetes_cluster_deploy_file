@@ -6,7 +6,6 @@ metadata:
   labels:
     k8s-app: heapster
     version: v6
-  #selfLink: /api/v1/namespaces/kube-system/replicationcontrollers/heapster
 spec:
   replicas: 1
   selector:
@@ -17,7 +16,14 @@ spec:
       labels:
         k8s-app: heapster
         version: v6
+      #通过tolerations将pod部署到master节点（已通过kubectl taint nodes k8s-mst node-role.kubernetes.io/master="true":NoSchedule命令为master节点添加污点）
+      annotations:
+        scheduler.alpha.kubernetes.io/tolerations: '[{"key":"node-role.kubernetes.io/master", "operator":"Equal", "value":"true", "effect":"NoSchedule"}]'
     spec:
+      #配合taints使用，pods只能部署到master节点
+      nodeSelector:
+        kubernetes.io/hostname: k8s-mst
+        
       containers:
       - image: kubernetes/heapster:canary
         name: heapster
