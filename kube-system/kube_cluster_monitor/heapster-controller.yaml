@@ -23,9 +23,9 @@ spec:
       #配合taints使用，pods只能部署到master节点
       nodeSelector:
         kubernetes.io/hostname: k8s-mst
-        
+
       containers:
-      - image: kubernetes/heapster:canary
+      - image: registry.cn-hangzhou.aliyuncs.com/lvpengze/heapster:canary
         name: heapster
         command:
         - /heapster

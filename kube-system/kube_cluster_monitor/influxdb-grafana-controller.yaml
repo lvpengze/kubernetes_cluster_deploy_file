@@ -20,15 +20,15 @@ spec:
       #配合taints使用，pods只能部署到master节点
       nodeSelector:
         kubernetes.io/hostname: k8s-mst
-            
+
       containers:
-      - image: kubernetes/heapster_influxdb:v0.5
+      - image: registry.cn-hangzhou.aliyuncs.com/lvpengze/heapster_influxdb:v0.5
         name: influxdb
         volumeMounts:
         - name: influxdb-storage
           mountPath: /data
 
-      - image: docker.io/xiechengsheng/heapster-grafana-amd64:v4.0.2
+      - image: registry.cn-hangzhou.aliyuncs.com/lvpengze/heapster-grafana-amd64:v4.0.2
         name: grafana
         env:
         #api-server的地址
