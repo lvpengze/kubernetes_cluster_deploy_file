@@ -1,0 +1,16 @@
+[Unit]
+Description=Flanneld overlay address etcd agent
+After=network.target
+Before=docker.service
+
+[Service]
+User=root
+Type=notify
+ExecStartPost=/usr/bin/mk-docker-opts.sh -c
+ExecStart=/usr/bin/flanneld -etcd-endpoints={{ETCD_ENDPOINTS}} -etcd-prefix={{ETCD_PREFIX}} -iface={{IFACE}}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+RequiredBy=docker.service
+
