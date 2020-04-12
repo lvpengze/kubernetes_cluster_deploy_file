@@ -1,5 +1,5 @@
 # init_network [address] [gateway] [nameserver]
-#sed 's/要被取代的字串/新的字串/g' 文件名
+# sed 's/要被取代的字串/新的字串/g' 文件名
 address=${1}
 gateway=${2}
 nameserver=${3}

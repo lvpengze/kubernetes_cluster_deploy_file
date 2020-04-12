@@ -1,4 +1,5 @@
-#以下命令均已root用户进行操作
+##以下命令均已root用户进行操作
+
 cp ./sources.list /etc/apt/sources.list
 curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 apt update
