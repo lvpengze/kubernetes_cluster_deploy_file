@@ -24,12 +24,20 @@ spec:
       containers:
       - image: registry.cn-hangzhou.aliyuncs.com/lvpengze/heapster_influxdb:v0.5
         name: influxdb
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
         volumeMounts:
         - name: influxdb-storage
           mountPath: /data
 
       - image: registry.cn-hangzhou.aliyuncs.com/lvpengze/heapster-grafana-amd64:v4.0.2
         name: grafana
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
         env:
         #api-server的地址
         - name: INFLUXDB_SERVICE_URL

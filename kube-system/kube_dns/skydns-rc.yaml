@@ -49,6 +49,13 @@ spec:
       containers:
       - name: kubedns
         image: registry.cn-hangzhou.aliyuncs.com/lvpengze/kubedns-amd64:1.9
+        resources:
+          limits:
+            cpu: 200m
+            memory: 170Mi
+          requests:
+            cpu: 100m
+            memory: 70Mi        
         livenessProbe:
           httpGet:
             path: /healthz-kubedns

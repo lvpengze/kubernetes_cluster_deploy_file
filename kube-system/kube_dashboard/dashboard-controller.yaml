@@ -34,6 +34,13 @@ spec:
       containers:
       - name: kubernetes-dashboard
         image: registry.cn-hangzhou.aliyuncs.com/lvpengze/kubernetes-dashboard-amd64:v1.5.1
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
         imagePullPolicy: Always
         ports:
         - containerPort: 9090
