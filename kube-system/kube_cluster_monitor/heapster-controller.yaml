@@ -28,7 +28,7 @@ spec:
       - image: registry.cn-hangzhou.aliyuncs.com/lvpengze/heapster:canary
         name: heapster
         resources:
-          limits:
+          requests:
             cpu: 100m
             memory: 300Mi
         command:
