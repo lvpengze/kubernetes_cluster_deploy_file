@@ -1,3 +1,4 @@
+# 记得修改-etcd-endpoints参数（etcd服务器地址）和-iface参数（网卡名称，通过ifconfig查看）
 [Unit]
 Description=Flanneld overlay address etcd agent
 After=network.target

@@ -10,9 +10,12 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-##添加了EnvironmentFile 和 $DOCKER_OPTS
+##添加了EnvironmentFile  $DOCKER_OPTS 和 ExecStartPost
 EnvironmentFile=/run/docker_opts.env
 ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS
+#该参数解决防火墙问题
+ExecStartPost=/sbin/iptables -I FORWARD -s 0.0.0.0/0 -j ACCEPT
+
 ExecReload=/bin/kill -s HUP $MAINPID
 LimitNOFILE=1048576
 # Having non-zero Limit*s causes performance problems due to accounting overhead

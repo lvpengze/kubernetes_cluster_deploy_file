@@ -36,3 +36,4 @@ spec:
         #api-server的地址
         - --source=kubernetes:http://192.168.0.10:8080?inClusterConfig=false
         - --sink=influxdb:http://10.254.0.4:8086
+        - --metric-resolution=30s
